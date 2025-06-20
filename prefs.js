@@ -14,7 +14,7 @@ function init() {
     ExtensionUtils.initTranslations(Me.metadata['gettext-domain']);
 }
 
-var IconGrid = GObject.registerClass(class Logo_Menu_IconGrid extends Gtk.FlowBox{
+var IconGrid = GObject.registerClass(class Gapple_Menu_IconGrid extends Gtk.FlowBox{
     _init() {
         super._init({
               row_spacing: 10,
