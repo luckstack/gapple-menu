@@ -9,7 +9,7 @@ const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
 
-var LogoMenuPreferencesWidget = GObject.registerClass(class Logo_Menu_PreferencesWidget extends Gtk.Box{
+var GappleMenuPreferencesWidget = GObject.registerClass(class Gapple_Menu_PreferencesWidget extends Gtk.Box{
     _init(IconGrid, shellVersion, Settings) {
         super._init({
             orientation: Gtk.Orientation.VERTICAL,
@@ -133,123 +133,6 @@ var LogoMenuPreferencesWidget = GObject.registerClass(class Logo_Menu_Preference
             menuButtonIconSizeBox.append(menuButtonIconSizeScale);
             menuButtonIconSizeFrame.set_child(menuButtonIconSizeBox);
             this.append(menuButtonIconSizeFrame);
-        }
-
-        let clickType = this._settings.get_int('menu-button-icon-click-type');
-        let menuButtonIconClickTypeFrame = new Gtk.Frame();
-        let menuButtonIconClickTypeBox = new Gtk.Box({
-            margin_top: 5,
-            margin_bottom: 5,
-            margin_start: 5,
-            margin_end: 5,
-        });
-
-        let menuButtonIconClickTypeLabel = new Gtk.Label({
-            label: _('Icon Click Type to open Activities'),
-            use_markup: true,
-            xalign: 0,
-            hexpand: true
-        });
-
-        let menuButtonIconClickTypeCombo= new Gtk.ComboBoxText();
-        menuButtonIconClickTypeCombo.append("1", _("Left Click "));
-        menuButtonIconClickTypeCombo.append("2", _("Middle Click "));
-        menuButtonIconClickTypeCombo.append("3", _("Right Click "));
-        menuButtonIconClickTypeCombo.set_active_id(clickType.toString());
-
-        menuButtonIconClickTypeCombo.connect('changed', () => {
-            this._settings.set_int('menu-button-icon-click-type', parseInt(menuButtonIconClickTypeCombo.get_active_id()));
-        });
-
-        if (shellVersion < 40){
-            menuButtonIconClickTypeBox.add(menuButtonIconClickTypeLabel);
-            menuButtonIconClickTypeBox.add(menuButtonIconClickTypeCombo);
-            menuButtonIconClickTypeFrame.add(menuButtonIconClickTypeBox);
-            this.add(menuButtonIconClickTypeFrame);
-        }
-        else{
-            menuButtonIconClickTypeBox.append(menuButtonIconClickTypeLabel);
-            menuButtonIconClickTypeBox.append(menuButtonIconClickTypeCombo);
-            menuButtonIconClickTypeFrame.set_child(menuButtonIconClickTypeBox);
-            this.append(menuButtonIconClickTypeFrame);
-        }
-
-        let extensionApp = this._settings.get_string('menu-button-extensions-app');
-        let menuButtonExtensionsAppFrame = new Gtk.Frame();
-        let menuButtonExtensionsAppBox = new Gtk.Box({
-            margin_top: 5,
-            margin_bottom: 5,
-            margin_start: 5,
-            margin_end: 5,
-        });
-
-        let menuButtonExtensionsAppLabel = new Gtk.Label({
-            label: _('Preferred Extensions Application'),
-            use_markup: true,
-            xalign: 0,
-            hexpand: true
-        });
-
-        let menuButtonExtensionsAppCombo = new Gtk.ComboBoxText();
-        menuButtonExtensionsAppCombo.append("org.gnome.Extensions.desktop", _("GNOME Extensions"));
-        menuButtonExtensionsAppCombo.append("com.mattjakeman.ExtensionManager.desktop", _("Extensions Manager"));
-        menuButtonExtensionsAppCombo.set_active_id(extensionApp.toString());
-
-        menuButtonExtensionsAppCombo.connect('changed', () => {
-            this._settings.set_string('menu-button-extensions-app', menuButtonExtensionsAppCombo.get_active_id());
-        });
-
-        if (shellVersion < 40){
-            menuButtonExtensionsAppBox.add(menuButtonExtensionsAppLabel);
-            menuButtonExtensionsAppBox.add(menuButtonExtensionsAppCombo);
-            menuButtonExtensionsAppFrame.add(menuButtonExtensionsAppBox);
-            this.add(menuButtonExtensionsAppFrame);
-        }
-        else{
-            menuButtonExtensionsAppBox.append(menuButtonExtensionsAppLabel);
-            menuButtonExtensionsAppBox.append(menuButtonExtensionsAppCombo);
-            menuButtonExtensionsAppFrame.set_child(menuButtonExtensionsAppBox);
-            this.append(menuButtonExtensionsAppFrame);
-        }
-
-
-        let menuButtonTerminalFrame = new Gtk.Frame();
-        let menuButtonTerminalBox = new Gtk.Box({
-            margin_top: 5,
-            margin_bottom: 5,
-            margin_start: 5,
-            margin_end: 5,
-        });
-
-        // Change Terminal and build it's option in prefs
-        let currentTerminal = this._settings.get_string('menu-button-terminal');
-        let changeTerminalText = new Gtk.Label({
-            label: _("Terminal"),
-            use_markup: true,
-
-        })
-
-        let changeTerminalInput = new Gtk.Entry({
-            halign: Gtk.Align.END,
-            hexpand: true,
-        });
-
-        changeTerminalInput.set_text(currentTerminal);
-        changeTerminalInput.connect('changed', () => {
-            this._settings.set_string('menu-button-terminal', changeTerminalInput.get_text());
-        });
-
-        if (shellVersion < 40){
-            menuButtonTerminalBox.add(changeTerminalText);
-            menuButtonTerminalBox.add(changeTerminalInput);
-            menuButtonTerminalFrame.add(menuButtonTerminalBox);
-            this.add(menuButtonTerminalFrame);
-        }
-        else{
-            menuButtonTerminalBox.append(changeTerminalText);
-            menuButtonTerminalBox.append(changeTerminalInput);
-            menuButtonTerminalFrame.set_child(menuButtonTerminalBox);
-            this.append(menuButtonTerminalFrame);
         }
 
         let menuButtonSCFrame = new Gtk.Frame();
