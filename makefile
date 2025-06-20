@@ -1,4 +1,4 @@
 install:
 	gnome-extensions pack --extra-source=Resources/ --extra-source=constants.js  --force
-	gnome-extensions install logomenu@aryan_k.shell-extension.zip --force
-	rm logomenu@aryan_k.shell-extension.zip
+	gnome-extensions install gapple-menu@luckstack.shell-extension.zip --force
+	rm gapple-menu@luckstack.shell-extension.zip
