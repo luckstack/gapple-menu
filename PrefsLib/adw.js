@@ -29,7 +29,7 @@ const IconGrid = GObject.registerClass(class GappleMenuIconGrid extends Gtk.Flow
     }
 });
 
-export const LogoMenuIconsPage = GObject.registerClass(class GappleMenuIconsWidget extends Adw.PreferencesPage {
+export const GappleMenuIconsPage = GObject.registerClass(class GappleMenuIconsWidget extends Adw.PreferencesPage {
     _init(settings) {
         super._init();
         this._settings = settings;
