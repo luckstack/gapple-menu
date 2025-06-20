@@ -171,22 +171,6 @@ var FedoraMenuPreferencesWidget = GObject.registerClass(class Fedora_Menu_Prefer
             margin_end: 10,
         });
 
-        let menuButtonIconClickTypeLabel = new Gtk.Label({
-            label: _('Icon Click Type to open Activities'),
-            use_markup: true,
-            xalign: 0,
-            hexpand: true
-        });
-
-        let menuButtonIconClickTypeCombo= new Gtk.ComboBoxText();
-        menuButtonIconClickTypeCombo.append("2", _("Middle Click "));
-        menuButtonIconClickTypeCombo.append("3", _("Right Click "));
-        menuButtonIconClickTypeCombo.set_active_id(clickType.toString());
-
-        menuButtonIconClickTypeCombo.connect('changed', () => {
-            this._settings.set_int('menu-button-icon-click-type', parseInt(menuButtonIconClickTypeCombo.get_active_id()));
-        });
-
         if (shellVersion < 40){
             menuButtonIconClickTypeBox.add(menuButtonIconClickTypeLabel);
             menuButtonIconClickTypeBox.add(menuButtonIconClickTypeCombo);
@@ -200,58 +184,10 @@ var FedoraMenuPreferencesWidget = GObject.registerClass(class Fedora_Menu_Prefer
             this.append(menuButtonIconClickTypeFrame);
         }
 
-
-        let menuButtonTerminalFrame = new Gtk.Frame();
-        let menuButtonTerminalBox = new Gtk.Box({
-            margin_top: 5,
-            margin_bottom: 5,
-            margin_start: 5,
-            margin_end: 5,
-        });
-
-        // Change Terminal and build it's option in prefs
-        let currentTerminal = this._settings.get_string('menu-button-terminal');
-        let changeTerminalText = new Gtk.Label({
-            label: _("Terminal"),
-            use_markup: true,
-            
-        })
-
-        let changeTerminalInput = new Gtk.Entry({
-            halign: Gtk.Align.END,
-            hexpand: true,
-        });
-
-        changeTerminalInput.set_text(currentTerminal);
-        changeTerminalInput.connect('changed', () => {
-            this._settings.set_string('menu-button-terminal', changeTerminalInput.get_text());
-        });
-
-        if (shellVersion < 40){
-            menuButtonTerminalBox.add(changeTerminalText);
-            menuButtonTerminalBox.add(changeTerminalInput);
-            menuButtonTerminalFrame.add(menuButtonTerminalBox);
-            this.add(menuButtonTerminalFrame);
-        }
-        else{
-            menuButtonTerminalBox.append(changeTerminalText);
-            menuButtonTerminalBox.append(changeTerminalInput);
-            menuButtonTerminalFrame.set_child(menuButtonTerminalBox);
-            this.append(menuButtonTerminalFrame);
-        }
-
-        let menuButtonSCFrame = new Gtk.Frame();
-        let menuButtonSCBox = new Gtk.Box({
-            margin_top: 5,
-            margin_bottom: 5,
-            margin_start: 5,
-            margin_end: 5,
-        });
-
         // Change Software Center and build it's option in prefs
         let currentSoftwareCenter = this._settings.get_string('menu-button-software-center');
         let changeSoftwareCenterText = new Gtk.Label({
-            label: _("Software Center"),
+            label: _("App Store..."),
             use_markup: true,
             xalign: 0,
         })
