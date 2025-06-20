@@ -16,6 +16,10 @@ function _aboutThisDistro() {
 	Util.spawn(['gnome-control-center', 'info-overview'])
 }
 
+function _systemSettings() {
+	Util.spawn(['gnome-control-center'])
+}
+
 function _systemPreferences() {
 	Util.spawn(['gnome-control-center'])
 }
@@ -44,32 +48,9 @@ function _logOut() {
 	Util.spawn(['gnome-session-quit'])
 }
 
-function _appGrid() {
-    // Code snippet from - https://github.com/G-dH/custom-hot-corners-extended/blob/gdh/actions.js
-    // Pressing the apps btn before overview activation avoids icons animation in GS 3.36/3.38
-    Main.overview.dash.showAppsButton.checked = true;
-    // in 3.36 pressing the button is usualy enough to activate overview, but not always
-    Main.overview.show();
-    // pressing apps btn before overview has no effect in GS 40, so once again
-    Main.overview.dash.showAppsButton.checked = true;
-}
-
 function _forceQuit() {
 	Util.spawn(['xkill'])
 }
-
-function _extensions() {
-	Util.spawn(['gnome-extensions-app'])
-}
-
-function _middleClick(actor, event) {
-	// left click === 1, middle click === 2, right click === 3
-	if (event.get_button() === ExtensionUtils.getSettings(Me.metadata['settings-schema']).get_int('menu-button-icon-click-type')) {
-		this.menu.close();
-		Main.overview.toggle();
-	}
-}
-
 
 var MenuButton = GObject.registerClass(class FedoraMenu_MenuButton extends PanelMenu.Button {
 	_init() {
@@ -108,35 +89,23 @@ var MenuButton = GObject.registerClass(class FedoraMenu_MenuButton extends Panel
 		this.item1 = new PopupMenu.PopupMenuItem(_('About My System                 '))
 		this.item2 = new PopupMenu.PopupMenuItem(_('System Settings...'))
 		this.item3 = new PopupMenu.PopupSeparatorMenuItem()
-		this.item4 = new PopupMenu.PopupMenuItem(_('Activities'))
-		this.item5 = new PopupMenu.PopupMenuItem(_('App Grid'))	
 		this.item6 = new PopupMenu.PopupSeparatorMenuItem()
-		this.item7 = new PopupMenu.PopupMenuItem(_('Software Center...'))
-		this.item8 = new PopupMenu.PopupMenuItem(_('Terminal'))
-		this.item9 = new PopupMenu.PopupMenuItem(_('Extensions'))
+		this.item7 = new PopupMenu.PopupMenuItem(_('App Store...'))
 		
 		this.item1.connect('activate', () => _aboutThisDistro())
-		this.item2.connect('activate', () => _systemPreferences())
-		this.item4.connect('activate', () => _overviewToggle())
-		this.item5.connect('activate', () => _appGrid())
-		this.item7.connect('activate', () => this.softwareStore())
-		this.item8.connect('activate', () => this.terminal())
-		this.item9.connect('activate', () => this.extensions())
+		this.item2.connect('activate', () => _systemSettings())
+		this.item3.connect('activate', () => _systemPreferences())
+		this.item4.connect('activate', () => this.softwareStore())
 		
 		this.menu.addMenuItem(this.item1)
 		this.menu.addMenuItem(this.item2)
 		this.menu.addMenuItem(this.item3)
 		this.menu.addMenuItem(this.item4)
-		this.menu.addMenuItem(this.item5)
-		this.menu.addMenuItem(this.item6)
-		this.menu.addMenuItem(this.item7)
-		this.menu.addMenuItem(this.item8)
-		this.menu.addMenuItem(this.item9)
 
 		if(!forcequit_state) {
 			this.item10 = new PopupMenu.PopupSeparatorMenuItem()
 			this.menu.addMenuItem(this.item10)
-			this.item11 = new PopupMenu.PopupMenuItem(_('Force Quit App'))
+			this.item11 = new PopupMenu.PopupMenuItem(_('Force Quit...'))
 			this.item11.connect('activate', () => _forceQuit())
 			this.menu.addMenuItem(this.item11)
 		}
@@ -189,28 +158,8 @@ var MenuButton = GObject.registerClass(class FedoraMenu_MenuButton extends Panel
 		}
 	}
 
-	terminal() {
-		Util.spawn([this._settings.get_string('menu-button-terminal')])
-	}
-
 	softwareStore() {
 		Util.spawn([this._settings.get_string('menu-button-software-center')])
-	}
-
-	extensions() {
-        const appSys = imports.gi.Shell.AppSystem.get_default();
-		const extensionApp = appSys.lookup_app('org.gnome.Extensions.desktop');
-		if (extensionApp) {
-			try {
-				extensionApp.launch(
-					0,
-					-1,
-					Shell.AppLaunchGpu.APP_PREF,
-				);
-			} catch (e) {
-				log(e);
-			}
-		}
 	}
 
 	setIconImage(){
