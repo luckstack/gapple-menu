@@ -8,7 +8,7 @@ const {Adw, Gtk, Gdk, Gio, GLib, GObject} = imports.gi;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
-var LogoMenuIconsWidget = GObject.registerClass(class Logo_Menu_IconsWidget extends Adw.PreferencesPage{
+var GappleMenuIconsWidget = GObject.registerClass(class Gapple_Menu_IconsWidget extends Adw.PreferencesPage{
     _init(settings, IconGrid) {
         super._init({
             margin_top: 24,
@@ -103,7 +103,7 @@ var LogoMenuIconsWidget = GObject.registerClass(class Logo_Menu_IconsWidget exte
 })
 
 // Create all the customization options
-var LogoMenuOptionsWidget = GObject.registerClass(class Logo_Menu_OptionsWidget extends Adw.PreferencesPage{
+var GappleMenuOptionsWidget = GObject.registerClass(class Gapple_Menu_OptionsWidget extends Adw.PreferencesPage{
     _init(settings) {
         super._init({
             margin_top: 24,
@@ -123,68 +123,6 @@ var LogoMenuOptionsWidget = GObject.registerClass(class Logo_Menu_OptionsWidget 
         let prefGroup2 = new Adw.PreferencesGroup({
             title: _("Show/Hide Options")
         });
-        // Rows
-
-        // Activities click type
-
-        let clickType = this._settings.get_int('menu-button-icon-click-type');
-        let menuButtonIconClickTypeRow = new Adw.ActionRow({
-            title:_("Icon Click Type to open Activities")
-        });
-
-        let menuButtonIconClickTypeCombo= new Gtk.ComboBoxText({
-            valign: Gtk.Align.CENTER
-        });
-        menuButtonIconClickTypeCombo.append("1", _("Left Click "));
-        menuButtonIconClickTypeCombo.append("2", _("Middle Click "));
-        menuButtonIconClickTypeCombo.append("3", _("Right Click "));
-        menuButtonIconClickTypeCombo.set_active_id(clickType.toString());
-
-        menuButtonIconClickTypeCombo.connect('changed', () => {
-            this._settings.set_int('menu-button-icon-click-type', parseInt(menuButtonIconClickTypeCombo.get_active_id()));
-        });
-
-        menuButtonIconClickTypeRow.add_suffix(menuButtonIconClickTypeCombo);
-
-        // Extensions application choice
-
-        let extensionApp = this._settings.get_string('menu-button-extensions-app');
-        let menuButtonExtensionsAppRow = new Adw.ActionRow({
-            title:_("Preferred Extensions Application")
-        });
-
-        let menuButtonExtensionsAppCombo = new Gtk.ComboBoxText({
-            valign: Gtk.Align.CENTER
-        });
-        menuButtonExtensionsAppCombo.append("org.gnome.Extensions.desktop", _("GNOME Extensions"));
-        menuButtonExtensionsAppCombo.append("com.mattjakeman.ExtensionManager.desktop", _("Extensions Manager"));
-        menuButtonExtensionsAppCombo.set_active_id(extensionApp.toString());
-
-        menuButtonExtensionsAppCombo.connect('changed', () => {
-            this._settings.set_string('menu-button-extensions-app', menuButtonExtensionsAppCombo.get_active_id());
-        });
-
-        menuButtonExtensionsAppRow.add_suffix(menuButtonExtensionsAppCombo);
-
-        // Choose Terminal
-
-        let menuButtonTerminalRow = new Adw.ActionRow({
-            title:_("Terminal")
-        });
-
-        // Change Terminal and build it's option in prefs
-        let currentTerminal = this._settings.get_string('menu-button-terminal');
-
-        let changeTerminalInput = new Gtk.Entry({
-            valign: Gtk.Align.CENTER,
-        });
-
-        changeTerminalInput.set_text(currentTerminal);
-        changeTerminalInput.connect('changed', () => {
-            this._settings.set_string('menu-button-terminal', changeTerminalInput.get_text());
-        });
-
-        menuButtonTerminalRow.add_suffix(changeTerminalInput);
 
         // Change Software Center and build it's option in prefs
 
@@ -203,26 +141,6 @@ var LogoMenuOptionsWidget = GObject.registerClass(class Logo_Menu_OptionsWidget 
         });
 
         menuButtonSCRow.add_suffix(changeSoftwareCenterInput);
-
-        // Change System Monitor and build it's option in prefs
-
-        const systemMonitorRow = new Adw.ActionRow({
-            title: _('System Monitor'),
-        });
-        const currentSystemMonitor = this._settings.get_string('menu-button-system-monitor');
-
-        const changeSystemMonitorInput = new Gtk.Entry({
-            valign: Gtk.Align.CENTER,
-        });
-
-        changeSystemMonitorInput.set_text(currentSystemMonitor);
-        changeSystemMonitorInput.connect('changed', () => {
-            this._settings.set_string('menu-button-system-monitor', changeSystemMonitorInput.get_text());
-        });
-
-        systemMonitorRow.add_suffix(changeSystemMonitorInput);
-        
-
 
         // Power Options
         let showPowerOptionsRow = new Adw.ActionRow({
@@ -289,11 +207,7 @@ var LogoMenuOptionsWidget = GObject.registerClass(class Logo_Menu_OptionsWidget 
         softwareCentreOptionRow.add_suffix(hideSCOptionSwitch);
 
         // Pref Group
-        prefGroup1.add(menuButtonIconClickTypeRow);
-        prefGroup1.add(menuButtonExtensionsAppRow);
-        prefGroup1.add(menuButtonTerminalRow);
         prefGroup1.add(menuButtonSCRow);
-        prefGroup1.add(systemMonitorRow);
 
         prefGroup2.add(showPowerOptionsRow);
         prefGroup2.add(forceQuitOptionrow);
@@ -307,7 +221,7 @@ var LogoMenuOptionsWidget = GObject.registerClass(class Logo_Menu_OptionsWidget 
 
 // Parts taken from Arc Menu - https://gitlab.com/logoMenu/logoMenu/-/blob/wip-GNOME42-AwdPrefs/prefs.js
 // Create the About page
-var AboutPage = GObject.registerClass(class Logo_Menu_AboutPage extends Adw.PreferencesPage {
+var AboutPage = GObject.registerClass(class Gapple_Menu_AboutPage extends Adw.PreferencesPage {
     _init(settings) {
         super._init({
             title: _("About"),
@@ -316,8 +230,8 @@ var AboutPage = GObject.registerClass(class Logo_Menu_AboutPage extends Adw.Pref
 
         this._settings = settings;
 
-        let logoMenuLogoGroup = new Adw.PreferencesGroup();
-        let logoMenuBox = new Gtk.Box( {
+        let gappleMenuLogoGroup = new Adw.PreferencesGroup();
+        let gappleMenuBox = new Gtk.Box( {
             orientation: Gtk.Orientation.VERTICAL,
             margin_top: 10,
             margin_bottom: 10,
@@ -325,8 +239,8 @@ var AboutPage = GObject.registerClass(class Logo_Menu_AboutPage extends Adw.Pref
             vexpand: false
         });
 
-        let logoMenuLabel = new Gtk.Label({
-            label: '<span size="large"><b>' + _('Logo Menu') + '</b></span>',
+        let gappleMenuLabel = new Gtk.Label({
+            label: '<span size="large"><b>' + _('Gapple Menu') + '</b></span>',
             use_markup: true,
             vexpand: true,
             valign: Gtk.Align.FILL
@@ -338,17 +252,17 @@ var AboutPage = GObject.registerClass(class Logo_Menu_AboutPage extends Adw.Pref
             vexpand: false,
             margin_bottom: 5
         });
-        logoMenuBox.append(logoMenuLabel);
-        logoMenuBox.append(projectDescriptionLabel);
-        logoMenuLogoGroup.add(logoMenuBox);
+        gappleMenuBox.append(gappleMenuLabel);
+        gappleMenuBox.append(projectDescriptionLabel);
+        gappleMenuLogoGroup.add(gappleMenuBox);
 
-        this.add(logoMenuLogoGroup);
+        this.add(gappleMenuLogoGroup);
         //-----------------------------------------------------------------------
 
         //Extension/OS Info Group------------------------------------------------
         let extensionInfoGroup = new Adw.PreferencesGroup();
-        let logoMenuVersionRow = new Adw.ActionRow({
-            title: _("Logo Menu Version"),
+        let gappleMenuVersionRow = new Adw.ActionRow({
+            title: _("Gapple Menu Version"),
         });
         let releaseVersion;
         if(Me.metadata['version-name'])
@@ -370,29 +284,21 @@ var AboutPage = GObject.registerClass(class Logo_Menu_AboutPage extends Adw.Pref
             title: _('Github'),
         });
         githubLinkRow.add_suffix(new Gtk.Label({
-            label: 'Github.com/Aryan20/LogoMenu',
+            label: 'Github.com/luckstack/gapple-menu',
         }));
 
 
         let createdByRow = new Adw.ActionRow({
-            title: _('Created with love by'),
+            title: _('Forked with love by'),
         });
         createdByRow.add_suffix(new Gtk.Label({
-            label: 'Aryan Kaushik',
+            label: 'luckstack',
         }));
 
-        let matrixRoomRow = new Adw.ActionRow({
-            title: _('Matrix/Element room'),
-        });
-        matrixRoomRow.add_suffix(new Gtk.Label({
-            label: '#logo-menu:matrix.org',
-        }));
-
-        extensionInfoGroup.add(logoMenuVersionRow);
+        extensionInfoGroup.add(gappleMenuVersionRow);
         extensionInfoGroup.add(gnomeVersionRow);
         extensionInfoGroup.add(githubLinkRow);
         extensionInfoGroup.add(createdByRow);
-        extensionInfoGroup.add(matrixRoomRow);
 
         this.add(extensionInfoGroup);
         //-----------------------------------------------------------------------
@@ -422,8 +328,8 @@ var AboutPage = GObject.registerClass(class Logo_Menu_AboutPage extends Adw.Pref
 
 
 function fillPrefsWindow(window, IconGrid, Settings) {
-    let options = new LogoMenuOptionsWidget(Settings);
-    let iconsettings = new LogoMenuIconsWidget(Settings, IconGrid);
+    let options = new GappleMenuOptionsWidget(Settings);
+    let iconsettings = new GappleMenuIconsWidget(Settings, IconGrid);
     let aboutpage = new AboutPage(Settings);
 
     let iconTheme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default());
