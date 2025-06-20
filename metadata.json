@@ -1,14 +1,14 @@
 {
-  "description": "Logo Menu - Menu similar to Apple's macOS menu for the GNOME Desktop\nThis extension gives a simple menu along with the ability to get the icon of your distro on top left part of the panel for a great look.\nThe Icon can be customised through settings, it has both Linux and BSD logos.\nFor more screenshots, visit GitHub.\n\nThe 'Activities' indicator is hidden by default but can be enabled through settings.\n\nThe default Terminal and Software centre can also be changed.\n\n Force Quit works on Wayland and Xorg",
+  "description": "Gapple Menu - Menu similar to Apple's macOS menu for the GNOME Desktop\nThis extension gives a simple menu along with the ability to get the icon of your distro on top left part of the panel for a great look.\nThe Icon can be customised through settings, it has both Linux and BSD logos.\nFor more screenshots, visit GitHub.\n\nThe 'Activities' indicator is hidden by default but can be enabled through settings.\n\nThe default Terminal and Software centre can also be changed.\n\n Force Quit works on Wayland and Xorg",
   "donations": {
-    "github": "aryan20"
+    "github": "luckstack"
   },
-  "gettext-domain": "logo-menu",
+  "gettext-domain": "gapple-menu",
   "name": "Logo Menu",
-  "settings-schema": "org.gnome.shell.extensions.logo-menu",
+  "settings-schema": "org.gnome.shell.extensions.gapple-menu",
   "shell-version": ["46", "47", "48"],
-  "url": "https://github.com/Aryan20/Logomenu",
-  "uuid": "logomenu@aryan_k",
+  "url": "https://github.com/luckstack/gapple-menu",
+  "uuid": "gapple-menu@luckstack",
   "version": 35,
   "version-name": "24.0"
 }
