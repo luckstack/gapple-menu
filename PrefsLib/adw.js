@@ -7,7 +7,7 @@ import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions
 import * as Constants from '../constants.js';
 
 Gio._promisify(Gtk.FileDialog.prototype, "open", "open_finish");
-const IconGrid = GObject.registerClass(class LogoMenuIconGrid extends Gtk.FlowBox {
+const IconGrid = GObject.registerClass(class GappleMenuIconGrid extends Gtk.FlowBox {
     _init() {
         super._init({
             row_spacing: 10,
@@ -29,7 +29,7 @@ const IconGrid = GObject.registerClass(class LogoMenuIconGrid extends Gtk.FlowBo
     }
 });
 
-export const LogoMenuIconsPage = GObject.registerClass(class LogoMenuIconsWidget extends Adw.PreferencesPage {
+export const LogoMenuIconsPage = GObject.registerClass(class GappleMenuIconsWidget extends Adw.PreferencesPage {
     _init(settings) {
         super._init();
         this._settings = settings;
@@ -226,7 +226,7 @@ export const LogoMenuIconsPage = GObject.registerClass(class LogoMenuIconsWidget
 });
 
 // Create all the customization options
-export const LogoMenuOptionsPage = GObject.registerClass(class LogoMenuOptionsWidget extends Adw.PreferencesPage {
+export const LogoMenuOptionsPage = GObject.registerClass(class GappleMenuOptionsWidget extends Adw.PreferencesPage {
     _init(settings) {
         super._init();
         this._settings = settings;
@@ -268,45 +268,6 @@ export const LogoMenuOptionsPage = GObject.registerClass(class LogoMenuOptionsWi
 
         menuButtonIconClickTypeRow.add_suffix(menuButtonIconClickTypeCombo);
 
-        // Extensions application choice
-
-        const extensionApp = this._settings.get_string('menu-button-extensions-app');
-        const extensionsAppRow = new Adw.ActionRow({
-            title: _('Preferred Extensions Application'),
-        });
-
-        const extensionsAppCombo = new Gtk.ComboBoxText({
-            valign: Gtk.Align.CENTER,
-        });
-        extensionsAppCombo.append('org.gnome.Extensions.desktop', _('GNOME Extensions'));
-        extensionsAppCombo.append('com.mattjakeman.ExtensionManager.desktop', _('Extensions Manager'));
-        extensionsAppCombo.set_active_id(extensionApp.toString());
-
-        extensionsAppCombo.connect('changed', () => {
-            this._settings.set_string('menu-button-extensions-app', extensionsAppCombo.get_active_id());
-        });
-
-        extensionsAppRow.add_suffix(extensionsAppCombo);
-
-        // Choose Terminal
-
-        const menuButtonTerminalRow = new Adw.ActionRow({
-            title: _('Terminal'),
-        });
-
-        // Change Terminal and build it's option in prefs
-        const currentTerminal = this._settings.get_string('menu-button-terminal');
-
-        const changeTerminalInput = new Gtk.Entry({
-            valign: Gtk.Align.CENTER,
-        });
-
-        changeTerminalInput.set_text(currentTerminal);
-        changeTerminalInput.connect('changed', () => {
-            this._settings.set_string('menu-button-terminal', changeTerminalInput.get_text());
-        });
-
-        menuButtonTerminalRow.add_suffix(changeTerminalInput);
 
         // Change Software Center and build it's option in prefs
 
@@ -325,24 +286,6 @@ export const LogoMenuOptionsPage = GObject.registerClass(class LogoMenuOptionsWi
         });
 
         softwareCentreRow.add_suffix(changeSoftwareCenterInput);
-
-        // Change System Monitor and build it's option in prefs
-
-        const systemMonitorRow = new Adw.ActionRow({
-            title: _('System Monitor'),
-        });
-        const currentSystemMonitor = this._settings.get_string('menu-button-system-monitor');
-
-        const changeSystemMonitorInput = new Gtk.Entry({
-            valign: Gtk.Align.CENTER,
-        });
-
-        changeSystemMonitorInput.set_text(currentSystemMonitor);
-        changeSystemMonitorInput.connect('changed', () => {
-            this._settings.set_string('menu-button-system-monitor', changeSystemMonitorInput.get_text());
-        });
-
-        systemMonitorRow.add_suffix(changeSystemMonitorInput);
 
 
         // Power Options
@@ -464,7 +407,7 @@ export const LogoMenuOptionsPage = GObject.registerClass(class LogoMenuOptionsWi
 
 // Parts taken from Arc Menu
 // Create the About page
-export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends Adw.PreferencesPage {
+export const AboutPage = GObject.registerClass(class GappleMenuAboutPage extends Adw.PreferencesPage {
     _init(metadata) {
         if (parseInt(Config.PACKAGE_VERSION) >= 46) {
             super._init({
@@ -478,7 +421,7 @@ export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends A
             });
         }
 
-        const PROJECT_IMAGE = 'settings-logo-menu-logo';
+        const PROJECT_IMAGE = 'settings-gapple-menu-logo';
         const EXTERNAL_LINK_ICON = 'adw-external-link-symbolic'
 
         const logoMenuLogoGroup = new Adw.PreferencesGroup();
@@ -497,7 +440,7 @@ export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends A
         });
 
         const logoMenuLabel = new Gtk.Label({
-            label: `<span size="large"><b>${_('Logo Menu')}</b></span>`,
+            label: `<span size="large"><b>${_('Gapple Menu')}</b></span>`,
             use_markup: true,
             vexpand: true,
             valign: Gtk.Align.FILL,
@@ -511,9 +454,9 @@ export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends A
         });
 
         logoMenuBox.append(projectImage);
-        logoMenuBox.append(logoMenuLabel);
+        logoMenuBox.append(appleMenuLabel);
         logoMenuBox.append(projectDescriptionLabel);
-        logoMenuLogoGroup.add(logoMenuBox);
+        logoMenuLogoGroup.add(appleMenuBox);
 
         this.add(logoMenuLogoGroup);
         // -----------------------------------------------------------------------
@@ -521,7 +464,7 @@ export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends A
         // Extension/OS Info Group------------------------------------------------
         const extensionInfoGroup = new Adw.PreferencesGroup();
         const logoMenuVersionRow = new Adw.ActionRow({
-            title: _('Logo Menu Version'),
+            title: _('Gapple Menu Version'),
         });
         let releaseVersion;
         if (metadata['version-name'])
@@ -540,18 +483,10 @@ export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends A
         }));
 
         const createdByRow = new Adw.ActionRow({
-            title: _('Created with love by'),
+            title: _('Forked with love by'),
         });
         createdByRow.add_suffix(new Gtk.Label({
-            label: 'Aryan Kaushik',
-        }));
-
-        const matrixRoomRow = new Adw.ActionRow({
-            title: _('Matrix/Element room'),
-        });
-        matrixRoomRow.add_suffix(new Gtk.LinkButton({
-            icon_name: EXTERNAL_LINK_ICON,
-            uri: 'https://matrix.to/#/#logo-menu:matrix.org',
+            label: 'luckstack',
         }));
 
         const githubLinkRow = new Adw.ActionRow({
@@ -559,23 +494,13 @@ export const AboutPage = GObject.registerClass(class LogoMenuAboutPage extends A
         });
         githubLinkRow.add_suffix(new Gtk.LinkButton({
             icon_name: EXTERNAL_LINK_ICON,
-            uri: 'https://github.com/Aryan20/LogoMenu',
+            uri: 'https://github.com/luckstack/gapple-menu',
         }));
 
-        const contributorRow = new Adw.ActionRow({
-            title: _('Contributors'),
-        });
-        contributorRow.add_suffix(new Gtk.LinkButton({
-            icon_name: EXTERNAL_LINK_ICON,
-            uri: 'https://github.com/Aryan20/Logomenu/graphs/contributors'
-        }));
-
-        extensionInfoGroup.add(logoMenuVersionRow);
+        extensionInfoGroup.add(gappleMenuVersionRow);
         extensionInfoGroup.add(gnomeVersionRow);
         extensionInfoGroup.add(createdByRow);
         extensionInfoGroup.add(githubLinkRow);
-        extensionInfoGroup.add(matrixRoomRow);
-        extensionInfoGroup.add(contributorRow);
 
         this.add(extensionInfoGroup);
         // -----------------------------------------------------------------------
