@@ -64,9 +64,17 @@ Available on the [GNOME Extensions Store](https://extensions.gnome.org/extension
 [<img src="https://github.com/Aryan20/Logomenu/assets/34372791/b6a10e3e-02ec-4573-b5d1-9a14f98e827c" width=250>](https://extensions.gnome.org/extension/4451/logo-menu/)
 
 
-* Manual : Grab the latest release and unzip to `.local/share/gnome-shell/extensions/logomenu@aryan_k/`
+* Manual : Grab the latest release and unzip to `.local/share/gnome-shell/extensions/gapple-menu@luckstack/`
 
 **or**
+
+Compile from source:
+
+    cd ~/Downloads
+
+    git clone https://github.com/luckstack/gapple-menu.git
+
+    cd gapple-menu
 
 use GNU make:
 
