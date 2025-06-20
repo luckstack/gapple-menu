@@ -226,7 +226,7 @@ export const GappleMenuIconsPage = GObject.registerClass(class GappleMenuIconsWi
 });
 
 // Create all the customization options
-export const LogoMenuOptionsPage = GObject.registerClass(class GappleMenuOptionsWidget extends Adw.PreferencesPage {
+export const GappleMenuOptionsPage = GObject.registerClass(class GappleMenuOptionsWidget extends Adw.PreferencesPage {
     _init(settings) {
         super._init();
         this._settings = settings;
@@ -386,10 +386,7 @@ export const LogoMenuOptionsPage = GObject.registerClass(class GappleMenuOptions
 
         // Pref Group
         prefGroup1.add(menuButtonIconClickTypeRow);
-        prefGroup1.add(extensionsAppRow);
-        prefGroup1.add(menuButtonTerminalRow);
         prefGroup1.add(softwareCentreRow);
-        prefGroup1.add(systemMonitorRow);
 
         prefGroup2.add(showPowerOptionsRow);
         prefGroup2.add(forceQuitOptionrow);
@@ -424,8 +421,8 @@ export const AboutPage = GObject.registerClass(class GappleMenuAboutPage extends
         const PROJECT_IMAGE = 'settings-gapple-menu-logo';
         const EXTERNAL_LINK_ICON = 'adw-external-link-symbolic'
 
-        const logoMenuLogoGroup = new Adw.PreferencesGroup();
-        const logoMenuBox = new Gtk.Box({
+        const gappleMenuLogoGroup = new Adw.PreferencesGroup();
+        const gappleMenuBox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
             margin_top: 10,
             margin_bottom: 10,
@@ -439,7 +436,7 @@ export const AboutPage = GObject.registerClass(class GappleMenuAboutPage extends
             pixel_size: 100,
         });
 
-        const logoMenuLabel = new Gtk.Label({
+        const gappleMenuLabel = new Gtk.Label({
             label: `<span size="large"><b>${_('Gapple Menu')}</b></span>`,
             use_markup: true,
             vexpand: true,
@@ -453,12 +450,12 @@ export const AboutPage = GObject.registerClass(class GappleMenuAboutPage extends
             margin_bottom: 5,
         });
 
-        logoMenuBox.append(projectImage);
-        logoMenuBox.append(appleMenuLabel);
-        logoMenuBox.append(projectDescriptionLabel);
-        logoMenuLogoGroup.add(appleMenuBox);
+        gappleMenuBox.append(projectImage);
+        gappleMenuBox.append(appleMenuLabel);
+        gappleMenuBox.append(projectDescriptionLabel);
+        gappleMenuLogoGroup.add(appleMenuBox);
 
-        this.add(logoMenuLogoGroup);
+        this.add(gappleMenuLogoGroup);
         // -----------------------------------------------------------------------
 
         // Extension/OS Info Group------------------------------------------------
